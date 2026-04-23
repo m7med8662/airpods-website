@@ -1,25 +1,33 @@
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+/* =============================================================================
+   HOME PAGE — AirPods Website
+   Design: Cinematic Dark Tech
+   - Deep dark backgrounds (oklch(0.08)) with luminous product imagery
+   - Apple Blue (#0071E3) as primary accent
+   - Syne display font + Inter body font
+   - Scroll-triggered reveal animations
+   ============================================================================= */
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/HeroSection";
+import ProductsSection from "@/components/ProductsSection";
+import FeaturesSection from "@/components/FeaturesSection";
+import MaxSection from "@/components/MaxSection";
+import SoundBanner from "@/components/SoundBanner";
+import CompareSection from "@/components/CompareSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import Footer from "@/components/Footer";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
- */
 export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
+    <div className="min-h-screen" style={{ background: "oklch(0.08 0.005 260)" }}>
+      <Navbar />
+      <HeroSection />
+      <ProductsSection />
+      <FeaturesSection />
+      <MaxSection />
+      <SoundBanner />
+      <CompareSection />
+      <TestimonialsSection />
+      <Footer />
     </div>
   );
 }
