@@ -3,10 +3,12 @@
    Full-bleed hero with floating AirPods Pro, bold Syne headline
    Dark background with subtle radial gradient glow
    ============================================================================= */
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import BookingModal from "./BookingModal";
 
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -108,12 +110,12 @@ export default function HeroSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
-              <a
-                href="#compare"
+              <button
+                onClick={() => setIsBookingOpen(true)}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-white/40 font-medium text-sm transition-all duration-200 hover:-translate-y-0.5"
               >
-                Compare Models
-              </a>
+                Reserve Now
+              </button>
             </div>
 
             {/* Stats row */}
@@ -169,6 +171,8 @@ export default function HeroSection() {
         <span className="text-xs tracking-widest uppercase">Scroll</span>
         <div className="w-px h-12 bg-gradient-to-b from-white/30 to-transparent" />
       </div>
+
+      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
     </section>
   );
 }
