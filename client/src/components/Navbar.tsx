@@ -1,8 +1,10 @@
-/* =============================================================================
+/*  =============================================================================
    NAVBAR — Cinematic Dark Tech
    Glassmorphism nav that becomes opaque on scroll
    ============================================================================= */
 import { useState, useEffect } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { getLoginUrl } from "@/const";
 
 const navLinks = [
   { label: "AirPods 4", href: "#airpods4" },
@@ -13,6 +15,7 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const { user, logout, loading } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -55,14 +58,35 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA */}
+          {/* CTA & Auth */}
           <div className="hidden md:flex items-center gap-4">
-            <a
-              href="#compare"
-              className="text-sm font-medium px-5 py-2 rounded-full bg-[#0071E3] hover:bg-[#0077ED] text-white transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
-            >
-              Shop Now
-            </a>
+            {loading ? (
+              <div className="text-sm text-white/50">Loading...</div>
+            ) : user ? (
+              <>
+                {user.role === "admin" && (
+                  <a
+                    href="/admin/bookings"
+                    className="text-sm font-medium px-5 py-2 rounded-full border border-white/20 hover:border-white/40 text-white/80 hover:text-white transition-all duration-200"
+                  >
+                    Manage Bookings
+                  </a>
+                )}
+                <button
+                  onClick={() => logout()}
+                  className="text-sm font-medium px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all duration-200"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <a
+                href={getLoginUrl()}
+                className="text-sm font-medium px-5 py-2 rounded-full bg-[#0071E3] hover:bg-[#0077ED] text-white transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
+              >
+                Sign In
+              </a>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -81,24 +105,43 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden py-4 border-t border-white/10">
+          <div className="md:hidden pb-4 space-y-3">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="block py-3 text-sm font-medium text-white/70 hover:text-white transition-colors"
-                onClick={() => setMenuOpen(false)}
+                className="block text-sm font-medium text-white/70 hover:text-white transition-colors duration-200"
               >
                 {link.label}
               </a>
             ))}
-            <a
-              href="#compare"
-              className="block mt-4 text-center text-sm font-medium px-5 py-2.5 rounded-full bg-[#0071E3] text-white"
-              onClick={() => setMenuOpen(false)}
-            >
-              Shop Now
-            </a>
+            {loading ? (
+              <div className="text-sm text-white/50">Loading...</div>
+            ) : user ? (
+              <>
+                {user.role === "admin" && (
+                  <a
+                    href="/admin/bookings"
+                    className="block text-sm font-medium text-white/70 hover:text-white transition-colors duration-200"
+                  >
+                    Manage Bookings
+                  </a>
+                )}
+                <button
+                  onClick={() => logout()}
+                  className="block w-full text-left text-sm font-medium text-white/70 hover:text-white transition-colors duration-200"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <a
+                href={getLoginUrl()}
+                className="block text-sm font-medium px-5 py-2 rounded-full bg-[#0071E3] hover:bg-[#0077ED] text-white transition-all duration-200 text-center"
+              >
+                Sign In
+              </a>
+            )}
           </div>
         )}
       </div>
